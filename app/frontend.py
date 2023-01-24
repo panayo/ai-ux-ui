@@ -71,7 +71,7 @@ def wordcloud(img):
     #st.pyplot()
     st.image("wordcloud.png",caption="Wordcloud",width=300)
 
-st.title("Welcome to the UX Web Analyzer")
+st.title("Welcome to the UX Web Analyzer test")
 st.markdown("[Panayotis Papoutsis](https://www.linkedin.com/in/panayotis-papoutsis/)")
 url = st.text_input("Enter a valid url to analyze:")
 full_website = st.checkbox("Full website screenshot?")
