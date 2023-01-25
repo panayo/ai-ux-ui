@@ -132,7 +132,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-@st.experimental_singleton
+@st.experimental_memo(show_spinner=False,suppress_st_warning=True)
 def get_driver():
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
