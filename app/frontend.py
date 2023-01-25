@@ -131,17 +131,28 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from io import BytesIO
+from selenium import webdriver
+from PIL import Image
 
 @st.experimental_memo(show_spinner=False,suppress_st_warning=True)
-def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+def get_url(url):
+    option = webdriver.ChromeOptions()
+    option.add_argument("--headless") #headless
+    option.add_argument("--mute-audio")
+    option.add_argument("--disable-gpu")
+    option.add_argument('--no-sandbox')
+    option.add_argument('--disable-blink-features=AutomationControlled')
+    option.add_argument('--disable-dev-shm-usage') 
+    driver = webdriver.Chrome(options=option)
+    driver.get(url)
+    screenshot = driver.get_screenshot_as_png()
+    screenshot_bytes = BytesIO(screenshot)
+    screenshot_img = Image.open(screenshot_bytes)
+    driver.quit()
+    return screenshot_img
 
-options = Options()
-options.add_argument('--disable-gpu')
-options.add_argument('--headless')
+img = get_url('https://www.morningstar.com/')
 
-driver = get_driver()
-driver.get('http://example.com')
 
-st.code(driver.page_source)
-
+st.image(img)
