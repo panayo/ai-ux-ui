@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 from urllib.parse import urlparse
 import os
 
-from requests_html import HTMLSession
 
 
 def website_screenshot(url : str, width : int = 1920,
