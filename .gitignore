@@ -3,3 +3,5 @@ AI4UX
 .DS_Store
 Pipefile 2
 Pipefile 2.lock
+screenshots.db
+wordcloud.png

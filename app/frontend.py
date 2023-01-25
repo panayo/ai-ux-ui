@@ -87,12 +87,12 @@ if url:
                 img = website_screenshot(url,full_website=full_website)
             else:
                 img = website_screenshot(url)
-            conn = sqlite3.connect('screenshots.db')
-            c = conn.cursor()
-            c.execute("CREATE TABLE IF NOT EXISTS screenshots (url text, full_website boolean)")
-            c.execute("INSERT INTO screenshots (url, full_website) VALUES (?,?)",(url, full_website))
-            conn.commit()
-            conn.close()
+            #conn = sqlite3.connect('screenshots.db')
+            #c = conn.cursor()
+            #c.execute("CREATE TABLE IF NOT EXISTS screenshots (url text, full_website boolean)")
+            #c.execute("INSERT INTO screenshots (url, full_website) VALUES (?,?)",(url, full_website))
+            #conn.commit()
+            #conn.close()
             with col1:
                 wordcloud(img=img)
                 st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
