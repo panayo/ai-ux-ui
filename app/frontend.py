@@ -134,17 +134,29 @@ from webdriver_manager.chrome import ChromeDriverManager
 from io import BytesIO
 from selenium import webdriver
 from PIL import Image
+import os
 
 @st.experimental_memo(show_spinner=False,suppress_st_warning=True)
+def delete_selenium_log():
+    if os.path.exists('selenium.log'):
+        os.remove('selenium.log')
+
+
+def show_selenium_log():
+    if os.path.exists('selenium.log'):
+        with open('selenium.log') as f:
+            content = f.read()
+            st.code(content)
+
 def get_url(url):
     option = webdriver.ChromeOptions()
-    option.add_argument("--headless") #headless
+    option.add_argument("--headless")
     option.add_argument("--mute-audio")
     option.add_argument("--disable-gpu")
     option.add_argument('--no-sandbox')
     option.add_argument('--disable-blink-features=AutomationControlled')
     option.add_argument('--disable-dev-shm-usage') 
-    driver = webdriver.Chrome(options=option)
+    driver = webdriver.Chrome(options=option,service_log_path='selenium.log')
     driver.get(url)
     screenshot = driver.get_screenshot_as_png()
     screenshot_bytes = BytesIO(screenshot)
