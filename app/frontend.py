@@ -84,9 +84,11 @@ if url:
     if parsed_url.scheme and parsed_url.netloc:
         try:
             if full_website :
-                img = website_screenshot(url,full_website=full_website)
+                #img = website_screenshot(url,full_website=full_website)
+                st.write('test ok')
             else:
-                img = website_screenshot(url)
+                st.write('test ok')
+                #img = website_screenshot(url)
             #conn = sqlite3.connect('screenshots.db')
             #c = conn.cursor()
             #c.execute("CREATE TABLE IF NOT EXISTS screenshots (url text, full_website boolean)")
@@ -94,12 +96,12 @@ if url:
             #conn.commit()
             #conn.close()
             with col1:
-                wordcloud(img=img)
+                #wordcloud(img=img)
+                st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
                 st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
             with col2:
-                st.image(img, caption='Screenshot of the Website',width=300)
-    
-            
+                #st.image(img, caption='Screenshot of the Website',width=300)
+                st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)    
         except:
             st.error("An error occurred while trying to access the URL. Please check if the URL is valid and try again.")
     else:
