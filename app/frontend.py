@@ -107,5 +107,4 @@ if url:
 else:
     st.info("Please enter a URL to analyze.")
 
-st.log()
 
