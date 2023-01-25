@@ -13,6 +13,8 @@ opencv-python = "*"
 wordcloud = "*"
 streamlit = "*"
 numpy = "*"
+install = "*"
+requests-html = "*"
 
 [dev-packages]
 ipykernel = "*"

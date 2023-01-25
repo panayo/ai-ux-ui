@@ -15,13 +15,20 @@ import matplotlib.pyplot as plt
 from urllib.parse import urlparse
 import os
 
-url = 'https://www.afoi-papoutsi.gr/'
+from requests_html import HTMLSession
+
 
 def website_screenshot(url : str, width : int = 1920,
                        height : int = 1080,full_website : bool = False ):
                        
     options = webdriver.ChromeOptions()
     options.headless = True
+    options.add_argument('--disable-extensions')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('start-maximized')
+    options.add_argument('disable-infobars')
     driver = webdriver.Chrome(options=options)
     driver.get(url)
     
@@ -38,6 +45,7 @@ def website_screenshot(url : str, width : int = 1920,
     screenshot_img = Image.open(screenshot_bytes)
     driver.quit()
     return screenshot_img
+
 
 def wordcloud(img):
     custom_config = r'--oem 3 --psm 6'
@@ -84,11 +92,11 @@ if url:
     if parsed_url.scheme and parsed_url.netloc:
         try:
             if full_website :
-                #img = website_screenshot(url,full_website=full_website)
-                st.write('test ok')
+                img = website_screenshot(url,full_website=full_website)
+                # st.write('test ok')
             else:
-                st.write('test ok')
-                #img = website_screenshot(url)
+                #st.write('test ok')
+                img = website_screenshot(url)
             #conn = sqlite3.connect('screenshots.db')
             #c = conn.cursor()
             #c.execute("CREATE TABLE IF NOT EXISTS screenshots (url text, full_website boolean)")
@@ -96,11 +104,11 @@ if url:
             #conn.commit()
             #conn.close()
             with col1:
-                #wordcloud(img=img)
-                st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
-                st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
+                wordcloud(img=img)
+                #st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
+                #st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
             with col2:
-                #st.image(img, caption='Screenshot of the Website',width=300)
+                st.image(img, caption='Screenshot of the Website',width=300)
                 st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)    
         except:
             st.error("An error occurred while trying to access the URL. Please check if the URL is valid and try again.")
