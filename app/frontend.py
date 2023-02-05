@@ -13,22 +13,23 @@ from collections import Counter
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from urllib.parse import urlparse
+import plotly.graph_objects as go
 import os
-
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import plotly.express as px
+import numpy as np
 
+# @st.experimental_singleton
+# def get_driver():
+#     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+#------------------BEGIN------------------------------------#
 @st.experimental_singleton
-def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
-
-
 def website_screenshot(url : str, width : int = 1920,
                        height : int = 1080,full_website : bool = False ):
+    # driver = get_driver()
 
-    driver = get_driver()
-                       
     options = webdriver.ChromeOptions()
     options.headless = True
     options.add_argument('--disable-extensions')
@@ -37,7 +38,10 @@ def website_screenshot(url : str, width : int = 1920,
     options.add_argument('--no-sandbox')
     options.add_argument('start-maximized')
     options.add_argument('disable-infobars')
-    driver = webdriver.Chrome(options=options)
+
+    # driver = webdriver.Chrome(options=options)
+    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
     driver.get(url)
     
     if full_website:
@@ -45,7 +49,6 @@ def website_screenshot(url : str, width : int = 1920,
         driver.set_window_size(S('Width'),S('Height'))
         screenshot = driver.get_screenshot_as_png()
         screenshot_bytes = BytesIO(screenshot)
-
     else:
         screenshot = driver.get_screenshot_as_png()
         screenshot_bytes = BytesIO(screenshot)
@@ -87,12 +90,44 @@ def wordcloud(img):
     #st.pyplot()
     st.image("wordcloud.png",caption="Wordcloud",width=300)
 
+
+def gauge(score = 32):
+    gauge_data = [
+        dict(
+            type='indicator',
+            mode='gauge+number',
+            value=score,
+            title={'text': "Scoring of the Website (demo)"},
+            gauge={
+                'axis': {'range': [None, 100]},
+                'bar': {'color': "blue"},
+                'steps': [
+                    {'range': [0, 33], 'color': 'red'},
+                    {'range': [33, 66], 'color': 'yellow'},
+                    {'range': [66, 100], 'color': 'green'}
+                ],
+                'threshold': {
+                    'line': {'color': "blue", 'width': 4},
+                    'thickness': 0.75,
+                    'value': score
+                }
+            }
+        )
+    ]
+    gauge_layout = dict(
+        height=300,width=300
+    )
+    return gauge_data, gauge_layout
+
+#------------------END------------------------------------#
+
 st.title("Welcome to the UX Web Analyzer")
 st.markdown("[Panayotis Papoutsis](https://www.linkedin.com/in/panayotis-papoutsis/)")
 url = st.text_input("Enter a valid url to analyze:")
 full_website = st.checkbox("Full website screenshot?")
 
 st.button('Submit')
+st.write(full_website)
 col1, col2 = st.columns([2,1])
 
 if url:
@@ -113,11 +148,13 @@ if url:
             #conn.close()
             with col1:
                 wordcloud(img=img)
+                gauge_data, gauge_layout = gauge(score=np.random.randint(0, 100))
+                st.plotly_chart(dict(data=gauge_data, layout=gauge_layout))
+               #st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)  
                 #st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
                 #st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)
             with col2:
-                st.image(img, caption='Screenshot of the Website',width=300)
-                st.image('./app/scoring.png',caption='Scoring of the Website (demo)',width = 300)    
+                st.image(img, caption='Screenshot of the Website',width=300)  
         except:
             st.error("An error occurred while trying to access the URL. Please check if the URL is valid and try again.")
     else:
