@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: ai-ux-ui-app
+    ports:
+      - 8501:8501
+    networks:
+      - my-network
+    depends_on:
+      - chrome
+    network_mode: "service:chrome"
+  chrome:
+    image: c0b0/chrome-stable
+    container_name: chrome
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge

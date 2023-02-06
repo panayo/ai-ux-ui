@@ -19,6 +19,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import plotly.express as px
 import numpy as np
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # @st.experimental_singleton
 # def get_driver():
@@ -31,9 +32,10 @@ def website_screenshot(url : str, width : int = 1920,
     # driver = get_driver()
 
     options = webdriver.ChromeOptions()
-    options.headless = True
+    #options.headless = True
     options.add_argument('--disable-extensions')
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
+    options.add_argument('--headless=new')
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('start-maximized')
@@ -161,4 +163,3 @@ if url:
         st.error("Please enter a valid URL.")
 else:
     st.info("Please enter a URL to analyze.")
-

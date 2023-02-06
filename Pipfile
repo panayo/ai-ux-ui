@@ -17,6 +17,7 @@ install = "*"
 requests-html = "*"
 plotly = "*"
 scipy = "*"
+watchdog = "*"
 
 [dev-packages]
 ipykernel = "*"

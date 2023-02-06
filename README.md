@@ -17,3 +17,14 @@ In conclusion, the Web Analyzer is a powerful tool that can help you understand 
 
 
 
+## How to run the docker :
+
+Create a docker network that gives access to the internet.
+```bash
+docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.1 my-network
+```
+
+
+
+
+
