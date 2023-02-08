@@ -20,11 +20,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 import plotly.express as px
 import numpy as np
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from webdriver_manager.core.utils import ChromeType
 
 # @st.experimental_singleton
 # def get_driver():
 #     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
+nltk.download('punkt')
+nltk.download('stopwords')
 #------------------BEGIN------------------------------------#
 @st.experimental_singleton
 def website_screenshot(url : str, width : int = 1920,
@@ -42,7 +44,7 @@ def website_screenshot(url : str, width : int = 1920,
     options.add_argument('disable-infobars')
 
     # driver = webdriver.Chrome(options=options)
-    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver=webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()), options=options)
 
     driver.get(url)
     
